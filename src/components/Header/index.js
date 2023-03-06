@@ -63,23 +63,27 @@ class Header extends Component {
     return (
       <nav className="nav-container">
         <div className="nav-elements-container">
-          <Link to="/">
-            <img
-              src="https://res.cloudinary.com/dyx9u0bif/image/upload/v1657426908/lg-devices-logo_rpfa68.png"
-              className="app-logo"
-              alt="website logo"
-            />
-          </Link>
-          <ul className="nav-list-items">
-            <Link to="/" className="nav-link">
-              <li className={`popup-heading ${homeClassNameStyling}`}>Home</li>
+          <div className="lg-logo-container">
+            <Link to="/">
+              <img
+                src="https://res.cloudinary.com/dyx9u0bif/image/upload/v1657426908/lg-devices-logo_rpfa68.png"
+                className="app-logo"
+                alt="website logo"
+              />
             </Link>
-            <Link to="/popular" className="nav-link">
-              <li className={`popup-heading ${popularClassNameStyling}`}>
-                Popular
-              </li>
-            </Link>
-          </ul>
+            <ul className="nav-list-items">
+              <Link to="/" className="nav-link">
+                <li className={`popup-heading ${homeClassNameStyling}`}>
+                  Home
+                </li>
+              </Link>
+              <Link to="/popular" className="nav-link">
+                <li className={`popup-heading ${popularClassNameStyling}`}>
+                  Popular
+                </li>
+              </Link>
+            </ul>
+          </div>
           <div className="search-container">
             {showSearchBar && (
               <input
@@ -103,7 +107,7 @@ class Header extends Component {
                 />
               </button>
             </Link>
-            <Link to="/account">
+            <Link to="/Account">
               <img
                 src="https://res.cloudinary.com/dyx9u0bif/image/upload/v1657426927/account-avatar_irmhck.png"
                 className={`profile-logo ${accountClassNameStyling}`}

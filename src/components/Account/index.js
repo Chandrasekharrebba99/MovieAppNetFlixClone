@@ -1,6 +1,8 @@
+import {FaGoogle} from 'react-icons/fa'
 import Cookies from 'js-cookie'
 import Header from '../Header'
 import Footer from '../Footer'
+
 import './index.css'
 
 const Account = props => {
@@ -20,18 +22,18 @@ const Account = props => {
     <div className="account-root-container">
       <Header />
       <div className="account-details-container">
-        <h1 className="account-heading">Account</h1>
+        <p className="account-heading">Account</p>
         <hr className="hr-line" />
         <div className="member-details-container">
-          <p className="membership-heading">Membership</p>
+          <p className="membership-heading">Member ship</p>
           <div>
             <p className="membership-email">{username}@gmail.com</p>
-            <p className="membership-password">Password:{passwordInAsterisk}</p>
+            <p className="membership-password">Password {passwordInAsterisk}</p>
           </div>
         </div>
         <hr className="hr-line" />
         <div className="membership-container">
-          <p className="plan-details">Plan Details</p>
+          <p className="plan-details">Plan details</p>
           <p className="membership-premium">Premium</p>
           <p className="ultra-hd">Ultra HD</p>
         </div>
@@ -46,6 +48,7 @@ const Account = props => {
           </button>
         </div>
       </div>
+      <FaGoogle />
       <Footer />
     </div>
   )

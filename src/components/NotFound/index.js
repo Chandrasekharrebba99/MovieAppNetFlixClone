@@ -1,5 +1,4 @@
 import {Link} from 'react-router-dom'
-import Header from '../Header'
 
 import './index.css'
 
@@ -8,8 +7,6 @@ function NotFound() {
   //     'https://res.cloudinary.com/dyx9u0bif/image/upload/v1657093957/snow-removal-machine-working-high-ski-slope-snowstorm_454047-2149_1_xgxo4o.png'
   return (
     <>
-      <Header />
-
       <div className="not-found-container">
         <div className="not-found-videos-view">
           {/* <img
@@ -24,7 +21,7 @@ function NotFound() {
           </p>
           <Link className="nav-link" to="/">
             <button className="not-found-comp-btn" type="button">
-              Go To Home
+              Go to Home
             </button>
           </Link>
         </div>

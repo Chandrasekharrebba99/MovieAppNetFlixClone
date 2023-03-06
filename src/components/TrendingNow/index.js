@@ -6,6 +6,8 @@ import {Link} from 'react-router-dom'
 
 /* Add css to your project */
 import './index.css'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 const settings = {
   dots: false,
@@ -45,23 +47,23 @@ const apiStatusConstants = {
   inProgress: 'IN_PROGRESS',
 }
 
-class Originals extends Component {
+class TrendingMovies extends Component {
   state = {
-    originalsData: [],
+    trendingNowData: [],
     apiStatus: apiStatusConstants.initial,
   }
 
   componentDidMount = () => {
-    this.getOriginalsData()
+    this.getTrendingNowData()
   }
 
-  getOriginalsData = async () => {
+  getTrendingNowData = async () => {
     this.setState({
       apiStatus: apiStatusConstants.inProgress,
     })
 
     const jwtToken = Cookies.get('jwt_token')
-    const url = 'https://apis.ccbp.in/movies-app/originals'
+    const url = 'https://apis.ccbp.in/movies-app/trending-movies'
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -82,7 +84,7 @@ class Originals extends Component {
         posterUrl: eachMovie.poster_path,
       }))
       this.setState({
-        originalsData: updatedData,
+        trendingNowData: updatedData,
         apiStatus: apiStatusConstants.success,
       })
     }
@@ -93,11 +95,11 @@ class Originals extends Component {
     }
   }
 
-  originals = () => {
-    const {originalsData} = this.state
+  trendingNow = () => {
+    const {trendingNowData} = this.state
     return (
       <Slider {...settings}>
-        {originalsData.map(eachMovie => (
+        {trendingNowData.map(eachMovie => (
           <Link to={`/movies/${eachMovie.id}`} key={eachMovie.id}>
             <div className="slick-item" key={eachMovie.id}>
               <img
@@ -113,7 +115,7 @@ class Originals extends Component {
   }
 
   renderLoadingView = () => (
-    <div className="orignals-loader-container">
+    <div className="trendingnow-loader-container">
       <Loader
         type="TailSpin"
         height="42.67px"
@@ -123,9 +125,9 @@ class Originals extends Component {
     </div>
   )
 
-  retryAgain = () => this.originals()
+  retryAgain = () => this.trendingNow()
 
-  renderOriginalsFailureView = () => (
+  renderTrendingNowFailureView = () => (
     <div className="failure-view-container">
       <img
         src="https://res.cloudinary.com/dug30iszj/image/upload/v1664109617/MovieApp/Icon_joakz9.png"
@@ -143,9 +145,9 @@ class Originals extends Component {
     const {apiStatus} = this.state
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return this.originals()
+        return this.trendingNow()
       case apiStatusConstants.failure:
-        return this.renderOriginalsFailureView()
+        return this.renderTrendingNowFailureView()
       case apiStatusConstants.inProgress:
         return this.renderLoadingView()
       default:
@@ -154,4 +156,4 @@ class Originals extends Component {
   }
 }
 
-export default Originals
+export default TrendingMovies

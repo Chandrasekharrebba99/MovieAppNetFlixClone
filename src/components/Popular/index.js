@@ -1,11 +1,10 @@
+import './index.css'
+import Loader from 'react-loader-spinner'
 import {Component} from 'react'
 import Cookies from 'js-cookie'
-import Loader from 'react-loader-spinner'
 import {Link} from 'react-router-dom'
-import './index.css'
-
-import FailureView from '../FailureView'
 import Header from '../Header'
+import FailureView from '../FailureView'
 import Footer from '../Footer'
 
 const apiStatusConstants = {
@@ -17,52 +16,76 @@ const apiStatusConstants = {
 
 class Popular extends Component {
   state = {
-    popularMovies: [],
+    popularData: [],
     apiStatus: apiStatusConstants.initial,
   }
 
-  componentDidMount() {
-    this.getPopularMovies()
+  componentDidMount = () => {
+    this.renderPopularMoviesData()
   }
 
-  getPopularMovies = async () => {
+  renderPopularMoviesData = async () => {
     this.setState({
       apiStatus: apiStatusConstants.inProgress,
     })
+
     const jwtToken = Cookies.get('jwt_token')
-    const apiUrl = `https://apis.ccbp.in/movies-app/popular-movies`
+    const url = 'https://apis.ccbp.in/movies-app/popular-movies'
     const options = {
-      method: 'GET',
       headers: {
         Authorization: `Bearer ${jwtToken}`,
       },
+      method: 'GET',
     }
 
-    const response = await fetch(apiUrl, options)
+    const response = await fetch(url, options)
+    console.log(response)
     if (response.ok === true) {
-      const data = await response.json()
-      // console.log(data)
-      const updatedData = data.results.map(each => ({
-        posterPath: each.poster_path,
-        backdropPath: each.backdrop_path,
-        id: each.id,
-        overview: each.overview,
-        title: each.title,
+      const fetchedData = await response.json()
+      console.log(fetchedData)
+      const updatedData = fetchedData.results.map(eachMovie => ({
+        title: eachMovie.title,
+        backdropPath: eachMovie.backdrop_path,
+        overview: eachMovie.overview,
+        id: eachMovie.id,
+        posterUrl: eachMovie.poster_path,
       }))
-      // console.log(updatedData)
       this.setState({
-        popularMovies: updatedData,
+        popularData: updatedData,
         apiStatus: apiStatusConstants.success,
       })
-    } else {
+    }
+    if (response.status === 401) {
       this.setState({
         apiStatus: apiStatusConstants.failure,
       })
     }
   }
 
+  renderSuccessView = () => {
+    const {popularData} = this.state
+
+    return (
+      <div className="popular-movie-container">
+        <ul className="popular-ul-container">
+          {popularData.map(each => (
+            <Link to={`/movies/${each.id}`} key={each.id} target="blank">
+              <li className="popular-li-item" key={each.id}>
+                <img
+                  className="popular-poster"
+                  src={each.posterUrl}
+                  alt={each.title}
+                />
+              </li>
+            </Link>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
   onRetry = () => {
-    this.getPopularMovies()
+    this.renderPopularMoviesData()
   }
 
   renderFailureView = () => <FailureView onRetry={this.onRetry} />
@@ -74,32 +97,10 @@ class Popular extends Component {
         type="TailSpin"
         height={35}
         width={380}
-        color=" #D81F26"
+        color="#D81F26"
       />
     </div>
   )
-
-  renderSuccessView = () => {
-    const {popularMovies} = this.state
-    return (
-      <>
-        <h1 className="explore-movies-here">Explore the Popular Movies Here</h1>
-        <ul className="popular-ul-container">
-          {popularMovies.map(each => (
-            <Link to={`/movies/${each.id}`} key={each.id}>
-              <li className="popular-li-item" key={each.id}>
-                <img
-                  className="popular-poster"
-                  src={each.posterPath}
-                  alt={each.title}
-                />
-              </li>
-            </Link>
-          ))}
-        </ul>
-      </>
-    )
-  }
 
   renderPopularMovies = () => {
     const {apiStatus} = this.state
@@ -110,7 +111,6 @@ class Popular extends Component {
         return this.renderFailureView()
       case apiStatusConstants.inProgress:
         return this.renderLoadingView()
-
       default:
         return null
     }
@@ -118,7 +118,7 @@ class Popular extends Component {
 
   render() {
     return (
-      <div className="main-popular-bg-black-container">
+      <div className="Popular-container">
         <Header />
         <div className="popular-result-container">
           {this.renderPopularMovies()}
@@ -128,4 +128,5 @@ class Popular extends Component {
     )
   }
 }
+
 export default Popular

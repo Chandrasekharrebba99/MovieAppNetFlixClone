@@ -1,42 +1,10 @@
 import {Component} from 'react'
-import Slider from 'react-slick'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 import {Link} from 'react-router-dom'
 
 /* Add css to your project */
 import './index.css'
-
-const settings = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-      },
-    },
-  ],
-}
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -45,23 +13,23 @@ const apiStatusConstants = {
   inProgress: 'IN_PROGRESS',
 }
 
-class Originals extends Component {
+class TopRated extends Component {
   state = {
-    originalsData: [],
+    topRatedData: [],
     apiStatus: apiStatusConstants.initial,
   }
 
   componentDidMount = () => {
-    this.getOriginalsData()
+    this.getTopRatedData()
   }
 
-  getOriginalsData = async () => {
+  getTopRatedData = async () => {
     this.setState({
       apiStatus: apiStatusConstants.inProgress,
     })
 
     const jwtToken = Cookies.get('jwt_token')
-    const url = 'https://apis.ccbp.in/movies-app/originals'
+    const url = 'https://apis.ccbp.in/movies-app/top-rated-movies'
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -82,7 +50,7 @@ class Originals extends Component {
         posterUrl: eachMovie.poster_path,
       }))
       this.setState({
-        originalsData: updatedData,
+        topRatedData: updatedData,
         apiStatus: apiStatusConstants.success,
       })
     }
@@ -93,27 +61,30 @@ class Originals extends Component {
     }
   }
 
-  originals = () => {
-    const {originalsData} = this.state
+  topRated = () => {
+    const {topRatedData} = this.state
     return (
-      <Slider {...settings}>
-        {originalsData.map(eachMovie => (
-          <Link to={`/movies/${eachMovie.id}`} key={eachMovie.id}>
-            <div className="slick-item" key={eachMovie.id}>
-              <img
-                className="logo-image"
-                src={eachMovie.backdropPath}
-                alt="movie poster"
-              />
-            </div>
-          </Link>
-        ))}
-      </Slider>
+      <ul className="top-rated">
+        {topRatedData.slice(Math.floor(Math.random() * 7 + 1), 9).map(
+          (eachMovie, i) =>
+            i < 2 && (
+              <Link to={`/movies/${eachMovie.id}`} key={eachMovie.id}>
+                <li className="slick-item" key={eachMovie.id}>
+                  <img
+                    className="top-rated-image"
+                    src={eachMovie.backdropPath}
+                    alt="movie poster"
+                  />
+                </li>
+              </Link>
+            ),
+        )}
+      </ul>
     )
   }
 
   renderLoadingView = () => (
-    <div className="orignals-loader-container">
+    <div className="trendingnow-loader-container">
       <Loader
         type="TailSpin"
         height="42.67px"
@@ -123,9 +94,9 @@ class Originals extends Component {
     </div>
   )
 
-  retryAgain = () => this.originals()
+  retryAgain = () => this.trendingNow()
 
-  renderOriginalsFailureView = () => (
+  renderTopRatedFailureView = () => (
     <div className="failure-view-container">
       <img
         src="https://res.cloudinary.com/dug30iszj/image/upload/v1664109617/MovieApp/Icon_joakz9.png"
@@ -143,9 +114,9 @@ class Originals extends Component {
     const {apiStatus} = this.state
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return this.originals()
+        return this.topRated()
       case apiStatusConstants.failure:
-        return this.renderOriginalsFailureView()
+        return this.renderTopRatedFailureView()
       case apiStatusConstants.inProgress:
         return this.renderLoadingView()
       default:
@@ -154,4 +125,4 @@ class Originals extends Component {
   }
 }
 
-export default Originals
+export default TopRated

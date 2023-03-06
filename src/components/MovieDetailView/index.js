@@ -7,11 +7,8 @@ import Footer from '../Footer'
 import FailureView from '../FailureView'
 // import PlayVideoView from '../PlayVideoView'
 
-import Header from '../Header'
-// import Footer from '../Footer'
-
 import './index.css'
-import MovieDetail from '../MovieDetail'
+import MovieDetails from '../MovieDetails'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -152,7 +149,7 @@ class MovieDetailView extends Component {
         <div className="">
           <div className="">
             {movieDetails.map(each => (
-              <MovieDetail movieDetails={each} key={each.id} />
+              <MovieDetails movieDetails={each} key={each.id} />
             ))}
           </div>
         </div>
@@ -161,7 +158,7 @@ class MovieDetailView extends Component {
             <h1 className="movie-info-genre-heading">Genres</h1>
             {genres.map(eachGenre => (
               <li className="movie-info-each-genre" key={eachGenre.id}>
-                {eachGenre.name}
+                <p>{eachGenre.name}</p>
               </li>
             ))}
           </ul>
@@ -169,7 +166,7 @@ class MovieDetailView extends Component {
             <h1 className="movie-info-genre-heading">Audio Available</h1>
             {spokenLanguages.map(eachAudio => (
               <li className="movie-info-each-genre" key={eachAudio.id}>
-                {eachAudio.language}
+                <p>{eachAudio.language}</p>
               </li>
             ))}
           </ul>
@@ -199,7 +196,7 @@ class MovieDetailView extends Component {
           <h1 className="more-like-this">More like this</h1>
           <ul className="popular-ul-container similar-ul-container">
             {similarMovies.map(each => (
-              <Link to={`/movies/${each.id}`} key={each.id} target="blank">
+              <Link to={`/movies/${each.id}`} key={each.id}>
                 <li className="popular-li-item" key={each.id}>
                   <img
                     className="popular-poster"
@@ -233,7 +230,6 @@ class MovieDetailView extends Component {
   render() {
     return (
       <div className="dummy">
-        <Header />
         <div className="root-container">
           <div
             className="video-details-view-container"

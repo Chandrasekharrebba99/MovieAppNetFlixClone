@@ -9,9 +9,16 @@
   width: 100%;
   /* position: fixed; */
 }
+.lg-logo-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .header-logo {
-  width: 80px;
-  height: 30px;
+  width: 135px;
+  height: 39px;
 }
 .search-btn {
   background-color: transparent;
@@ -42,6 +49,11 @@
   align-items: center;
 }
 @media screen and (min-width: 768px) {
+  .app-logo {
+    width: 135px;
+    height: 39px;
+  }
+
   .profile-image {
     margin-right: 10px;
     visibility: visible;
@@ -64,6 +76,7 @@
   list-style-type: none;
   display: flex;
   margin-left: -20%;
+  text-decoration: none;
 }
 .header-logo-each-link {
   margin-right: 20px;
@@ -90,6 +103,11 @@
   align-items: center;
 }
 @media screen and (max-width: 767px) {
+  .app-logo {
+    width: 100px;
+    height: 27px;
+  }
+
   .nav-list-items {
     display: none;
   }
@@ -99,6 +117,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  list-style-type: none;
 }
 
 .profile-logo {
@@ -136,7 +155,7 @@
 .active {
   color: #ffffff;
   font-weight: 800;
-  border-bottom: 2px solid blue;
+  border-bottom: 1px solid white;
 }
 
 .passive {
@@ -144,6 +163,7 @@
 }
 
 .nav-link {
+  list-style-type: none;
   text-decoration: none;
   outline: none;
 }
@@ -155,6 +175,8 @@
   margin-right: 8px;
   width: 125px;
   color: white;
+  padding: 5px;
+  border-radius: 8px;
 }
 .search-container {
   display: flex;
@@ -183,7 +205,7 @@
 }
 
 .popup-heading {
-  font-family: 'HK Grotesk';
+  font-family: 'roboto';
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -197,7 +219,7 @@
 }
 
 .home-heading {
-  font-family: HK Grotesk;
+  font-family: 'roboto';
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
